@@ -1,0 +1,58 @@
+---
+- hosts: testmachines
+  name: testing of ansible
+  remote_user: ubuntu	
+  vars:
+   elastic_address: 192.168.200.118:9200 
+  tasks:
+   - name: Transfer metricbeat installation file to machines
+     copy:
+      src: metricbeat-7.2.0-amd64.deb
+      dest: ~/metricbeat-7.2.0-amd64.deb
+      owner: ubuntu
+      group: ubuntu
+      mode: u=rwx,g=r,o=r 
+   
+   - name: check if metric beat installed
+     command: dpkg-query -W metricbeat
+     register: metric_beat_exist
+     failed_when: metric_beat_exist.rc > 1
+     changed_when: metric_beat_exist.rc == 1
+
+   - name: install metricbeat
+     become: true
+     apt: 
+      deb: /home/ubuntu/metricbeat-7.2.0-amd64.deb
+     when: metric_beat_exist.rc == 1
+  
+   - name: copy config file to hosts
+     become: true
+     copy: 
+      src: "{{item.src}}"
+      dest: "{{item.dest}}"
+      owner: root
+      group: root
+      mode: u=rwx,g=r,o=r 
+     with_items:
+      - { src: 'metricbeat.yml', dest: '/etc/metricbeat/metricbeat.yml' }
+      - { src: 'system.yml', dest: '/etc/metricbeat/modules.d' }
+     tags:
+      - copy_conf
+
+   - name: enabling system module
+     become: true
+     command: metricbeat modules enable system
+
+   - name: Setup metric beat
+     become: true
+     command: metricbeat setup 
+     tags:
+      - setup
+
+   - name: Start service metricbeat, if not started
+     become: true
+     sysvinit:
+      name: metricbeat
+      state: started
+     tags:
+      - start
