@@ -46,13 +46,25 @@
    - name: Setup metric beat
      become: true
      command: metricbeat setup 
+     when: metric_beat_exist.rc == 1
      tags:
       - setup
 
+
    - name: Start service metricbeat, if not started
      become: true
-     sysvinit:
+     service:
       name: metricbeat
       state: started
      tags:
       - start
+
+
+   - name: Stop service metricbeat
+     become: true
+     service:
+      name: metricbeat
+      state: stopped
+     tags:
+      - stop
+

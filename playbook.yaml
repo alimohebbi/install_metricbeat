@@ -1,9 +1,0 @@
----
-- hosts: testmachines
-  name: testing of ansible
-  remote_user: ubuntu	
-  tasks:
-   - name: a simple echo
-     shell: echo hello > ~/abc.txt
- 
- 
