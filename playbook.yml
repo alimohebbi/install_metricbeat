@@ -1,5 +1,5 @@
 ---
-- hosts: testmachines
+- hosts: all
   name: testing of ansible
   remote_user: ubuntu	
   vars:
@@ -24,6 +24,8 @@
      apt: 
       deb: /home/ubuntu/metricbeat-7.2.0-amd64.deb
      when: metric_beat_exist.rc == 1
+     environment:
+      RUNLEVEL: 1
   
    - name: copy config file to hosts
      become: true
@@ -35,7 +37,7 @@
       mode: u=rwx,g=r,o=r 
      with_items:
       - { src: 'metricbeat.yml', dest: '/etc/metricbeat/metricbeat.yml' }
-      - { src: 'system.yml', dest: '/etc/metricbeat/modules.d' }
+      - { src: 'system.yml', dest: '/etc/metricbeat/modules.d/system.yml' }
      tags:
       - copy_conf
 
