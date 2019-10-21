@@ -40,6 +40,7 @@
       - { src: 'system.yml', dest: '/etc/metricbeat/modules.d/system.yml' }
      tags:
       - copy_conf
+      - reconfig
 
    - name: enabling system module
      become: true
@@ -61,6 +62,14 @@
      tags:
       - start
 
+   - name: Restart service metricbeat
+     become: true
+     service:
+      name: metricbeat
+      state: restarted
+     tags:
+      - reconfig
+      - restart
 
    - name: Stop service metricbeat
      become: true
