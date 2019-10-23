@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: elk, redis
   name: testing of ansible
   remote_user: ubuntu	
   vars:
@@ -38,7 +38,7 @@
      with_items:
       - { src: 'metricbeat.yml', dest: '/etc/metricbeat/metricbeat.yml' }
       - { src: 'system.yml', dest: '/etc/metricbeat/modules.d/system.yml' }
-      - { src: 'redis.yml', dest: '/etc/metricbeat/modules.d/redis.yml' }
+#      - { src: 'redis.yml', dest: '/etc/metricbeat/modules.d/redis.yml' }
      tags:
       - copy_conf
       - reconfig

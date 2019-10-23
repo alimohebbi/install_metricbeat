@@ -16,7 +16,7 @@
 #    - socket
 #    - uptime
 
-  cpu.metrics: [normalized_percentages]
+  cpu.metrics: [percentages, normalized_percentages]
 
   process.include_top_n:
     by_cpu: 5      # include top 5 processes by CPU
