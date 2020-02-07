@@ -1,5 +1,5 @@
 ---
-- hosts: elk, redis
+- hosts: new_redis
   name: testing of ansible
   remote_user: ubuntu	
   vars:
