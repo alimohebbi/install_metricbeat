@@ -3,7 +3,7 @@
   name: testing of ansible
   remote_user: ubuntu	
   vars:
-   elastic_address: 192.168.200.118:9200 
+   elastic_address: 192.168.200.100:9200 
   tasks:
    - name: Transfer metricbeat installation file to machines
      copy:
