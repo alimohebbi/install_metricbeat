@@ -38,7 +38,7 @@
      with_items:
       - { src: 'metricbeat.yml', dest: '/etc/metricbeat/metricbeat.yml' }
       - { src: 'system.yml', dest: '/etc/metricbeat/modules.d/system.yml' }
-      - { src: 'redis.yml', dest: '/etc/metricbeat/modules.d/redis.yml' }
+#      - { src: 'redis.yml', dest: '/etc/metricbeat/modules.d/redis.yml' }
      tags:
       - copy_conf
       - reconfig
@@ -47,9 +47,9 @@
      become: true
      command: metricbeat modules enable system
 
-   - name: enabling redis module
-     become: true
-     command: metricbeat modules enable redis
+#   - name: enabling redis module
+#     become: true
+#     command: metricbeat modules enable redis
 
    - name: Setup metric beat
      become: true
